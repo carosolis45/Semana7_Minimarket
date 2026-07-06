@@ -1,3 +1,37 @@
+ Documentación OpenAPI (Semana 7)
+
+### Swagger UI
+La documentación interactiva está disponible en:
+http://localhost:8080/swagger-ui/index.html
+
+text
+
+### Especificación OpenAPI
+- JSON: `http://localhost:8080/v3/api-docs`
+- Archivo: `openapi.json` (en la raíz del proyecto)
+
+### Endpoints documentados
+
+**Productos (5 endpoints)**
+| Método | Endpoint | Roles |
+|--------|----------|-------|
+| GET | `/api/productos` | ADMIN, CAJERO, BODEGUERO, CLIENTE |
+| GET | `/api/productos/{id}` | ADMIN, CAJERO, BODEGUERO, CLIENTE |
+| POST | `/api/productos` | ADMIN |
+| PUT | `/api/productos/{id}` | ADMIN |
+| DELETE | `/api/productos/{id}` | ADMIN |
+
+**Carritos (5 endpoints)**
+| Método | Endpoint | Roles |
+|--------|----------|-------|
+| GET | `/api/carrito` | ADMIN |
+| GET | `/api/carrito/{id}` | ADMIN, CLIENTE |
+| POST | `/api/carrito` | CLIENTE |
+| PUT | `/api/carrito/{id}` | ADMIN |
+| DELETE | `/api/carrito/{id}` | CLIENTE |
+
+---
+
 # MiniMarket Plus — Autenticación por rol validada con pruebas unitarias (Desarrollo Backend II, PBY2202)
 
 Actividad **sumativa de la Semana 6**: aplicación de mecanismos de autenticación
