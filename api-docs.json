@@ -1,0 +1,3289 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "MiniMarket Plus API",
+        "description": "API REST con autenticacion por rol (Desarrollo Backend II - Semana 6)",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "Generated server url"
+        }
+    ],
+    "security": [
+        {
+            "basicAuth": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "Productos",
+            "description": "API para la gestión de productos del minimarket"
+        },
+        {
+            "name": "Carritos",
+            "description": "API para la gestión del carrito de compras"
+        }
+    ],
+    "paths": {
+        "/api/usuarios/{id}": {
+            "get": {
+                "tags": [
+                    "usuario-controller"
+                ],
+                "operationId": "obtenerUsuarioPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Usuario"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "usuario-controller"
+                ],
+                "operationId": "actualizarUsuario",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Usuario"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Usuario"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "usuario-controller"
+                ],
+                "operationId": "eliminarUsuario",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/productos/{id}": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Obtener un producto por su ID",
+                "description": "Retorna los detalles de un producto específico",
+                "operationId": "obtenerProductoPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a consultar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Producto encontrado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Actualizar un producto",
+                "description": "Actualiza los datos de un producto existente. Requiere rol de ADMINISTRADOR.",
+                "operationId": "actualizarProducto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Producto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud inválida",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Producto actualizado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol ADMIN",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Eliminar un producto",
+                "description": "Elimina un producto del inventario. Requiere rol de ADMINISTRADOR.",
+                "operationId": "eliminarProducto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    },
+                    "204": {
+                        "description": "Producto eliminado"
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol ADMIN"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            }
+        },
+        "/api/inventario/{id}": {
+            "get": {
+                "tags": [
+                    "inventario-controller"
+                ],
+                "operationId": "obtenerMovimientoPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Inventario"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "inventario-controller"
+                ],
+                "operationId": "actualizarMovimiento",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Inventario"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Inventario"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "inventario-controller"
+                ],
+                "operationId": "eliminarMovimiento",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/detalle-ventas/{id}": {
+            "get": {
+                "tags": [
+                    "detalle-venta-controller"
+                ],
+                "operationId": "obtenerDetalleVentaPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DetalleVenta"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "detalle-venta-controller"
+                ],
+                "operationId": "actualizarDetalleVenta",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DetalleVenta"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DetalleVenta"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "detalle-venta-controller"
+                ],
+                "operationId": "eliminarDetalleVenta",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/categorias/{id}": {
+            "get": {
+                "tags": [
+                    "categoria-controller"
+                ],
+                "operationId": "obtenerCategoriaPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Categoria"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "categoria-controller"
+                ],
+                "operationId": "actualizarCategoria",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Categoria"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Categoria"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "categoria-controller"
+                ],
+                "operationId": "eliminarCategoria",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/carrito/{id}": {
+            "get": {
+                "tags": [
+                    "Carritos"
+                ],
+                "summary": "Obtener un carrito por su ID",
+                "description": "Retorna los detalles de un carrito específico",
+                "operationId": "obtenerCarritoPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del carrito a consultar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Carrito encontrado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Carrito no encontrado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Carritos"
+                ],
+                "summary": "Actualizar un carrito",
+                "description": "Actualiza los datos de un carrito existente. Requiere rol de ADMINISTRADOR.",
+                "operationId": "actualizarCarrito",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del carrito a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Carrito"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Carrito actualizado exitosamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud inválida",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Carrito no encontrado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol ADMIN",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Carritos"
+                ],
+                "summary": "Eliminar un producto del carrito",
+                "description": "Elimina un producto específico del carrito. Requiere rol de CLIENTE.",
+                "operationId": "eliminarProductoDelCarrito",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a eliminar del carrito",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "404": {
+                        "description": "Carrito no encontrado"
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol CLIENTE"
+                    },
+                    "204": {
+                        "description": "Producto eliminado del carrito"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            }
+        },
+        "/api/ventas": {
+            "get": {
+                "tags": [
+                    "venta-controller"
+                ],
+                "operationId": "listarVentas",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Venta"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "venta-controller"
+                ],
+                "operationId": "guardarVenta",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Venta"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Venta"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/usuarios": {
+            "get": {
+                "tags": [
+                    "usuario-controller"
+                ],
+                "operationId": "listarUsuarios",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Usuario"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "usuario-controller"
+                ],
+                "operationId": "guardarUsuario",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Usuario"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Usuario"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/productos": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Obtener todos los productos",
+                "description": "Retorna una lista de todos los productos disponibles en el inventario",
+                "operationId": "listarProductos",
+                "responses": {
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Producto"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Producto"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Lista de productos obtenida exitosamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Producto"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Crear un nuevo producto",
+                "description": "Crea un nuevo producto en el inventario. Requiere rol de ADMINISTRADOR.",
+                "operationId": "guardarProducto",
+                "requestBody": {
+                    "description": "Datos del producto a crear",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Producto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado exitosamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud inválida",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol ADMIN",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            }
+        },
+        "/api/inventario": {
+            "get": {
+                "tags": [
+                    "inventario-controller"
+                ],
+                "operationId": "listarMovimientosDeInventario",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Inventario"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "inventario-controller"
+                ],
+                "operationId": "registrarMovimiento",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Inventario"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Inventario"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/detalle-ventas": {
+            "get": {
+                "tags": [
+                    "detalle-venta-controller"
+                ],
+                "operationId": "listarDetalleVentas",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DetalleVenta"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "detalle-venta-controller"
+                ],
+                "operationId": "guardarDetalleVenta",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DetalleVenta"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DetalleVenta"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/categorias": {
+            "get": {
+                "tags": [
+                    "categoria-controller"
+                ],
+                "operationId": "listarCategorias",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Categoria"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "categoria-controller"
+                ],
+                "operationId": "guardarCategoria",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Categoria"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Categoria"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/carrito": {
+            "get": {
+                "tags": [
+                    "Carritos"
+                ],
+                "summary": "Obtener todos los carritos",
+                "description": "Retorna una lista de todos los carritos registrados. Requiere rol de ADMINISTRADOR.",
+                "operationId": "listarCarrito",
+                "responses": {
+                    "200": {
+                        "description": "Lista de carritos obtenida exitosamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Carrito"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Carrito"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol ADMIN",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Carrito"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Carritos"
+                ],
+                "summary": "Agregar un producto al carrito",
+                "description": "Agrega un producto al carrito de compras. Requiere rol de CLIENTE.",
+                "operationId": "agregarProductoAlCarrito",
+                "requestBody": {
+                    "description": "Datos del carrito a crear",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Carrito"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud inválida",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Producto agregado al carrito exitosamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol CLIENTE",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "auth-controller"
+                ],
+                "operationId": "login",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/public/hola": {
+            "get": {
+                "tags": [
+                    "hola-mundo-controller"
+                ],
+                "operationId": "holaMundo",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/ventas/{id}": {
+            "get": {
+                "tags": [
+                    "venta-controller"
+                ],
+                "operationId": "obtenerVentaPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Venta"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Rol": {
+                "required": [
+                    "nombre"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nombre": {
+                        "maxLength": 50,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "usuarios": {
+                        "uniqueItems": true,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            },
+            "Usuario": {
+                "required": [
+                    "nombre",
+                    "password",
+                    "username"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "username": {
+                        "maxLength": 50,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "apellido": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "roles": {
+                        "uniqueItems": true,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Rol"
+                        }
+                    }
+                }
+            },
+            "Categoria": {
+                "required": [
+                    "nombre"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nombre": {
+                        "maxLength": 60,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "productos": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Producto"
+                        }
+                    }
+                }
+            },
+            "Producto": {
+                "required": [
+                    "categoria",
+                    "nombre",
+                    "precio",
+                    "stock"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nombre": {
+                        "maxLength": 100,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "precio": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "categoria": {
+                        "$ref": "#/components/schemas/Categoria"
+                    }
+                }
+            },
+            "Inventario": {
+                "required": [
+                    "cantidad",
+                    "fechaMovimiento",
+                    "producto",
+                    "tipoMovimiento"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "producto": {
+                        "$ref": "#/components/schemas/Producto"
+                    },
+                    "cantidad": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "tipoMovimiento": {
+                        "type": "string"
+                    },
+                    "fechaMovimiento": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "DetalleVenta": {
+                "required": [
+                    "cantidad",
+                    "precio",
+                    "producto",
+                    "venta"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "venta": {
+                        "$ref": "#/components/schemas/Venta"
+                    },
+                    "producto": {
+                        "$ref": "#/components/schemas/Producto"
+                    },
+                    "cantidad": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "precio": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                }
+            },
+            "Venta": {
+                "required": [
+                    "fecha",
+                    "usuario"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "usuario": {
+                        "$ref": "#/components/schemas/Usuario"
+                    },
+                    "fecha": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "detalles": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DetalleVenta"
+                        }
+                    }
+                }
+            },
+            "Carrito": {
+                "required": [
+                    "cantidad",
+                    "producto",
+                    "usuario"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "usuario": {
+                        "$ref": "#/components/schemas/Usuario"
+                    },
+                    "producto": {
+                        "$ref": "#/components/schemas/Producto"
+                    },
+                    "cantidad": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "LoginRequest": {
+                "required": [
+                    "password",
+                    "username"
+                ],
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "LoginResponse": {
+                "type": "object",
+                "properties": {
+                    "autenticado": {
+                        "type": "boolean"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "mensaje": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "name": "basicAuth",
+                "scheme": "basic"
+            }
+        }
+    }
+}{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "MiniMarket Plus API",
+        "description": "API REST con autenticacion por rol (Desarrollo Backend II - Semana 6)",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "Generated server url"
+        }
+    ],
+    "security": [
+        {
+            "basicAuth": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "Productos",
+            "description": "API para la gestión de productos del minimarket"
+        },
+        {
+            "name": "Carritos",
+            "description": "API para la gestión del carrito de compras"
+        }
+    ],
+    "paths": {
+        "/api/usuarios/{id}": {
+            "get": {
+                "tags": [
+                    "usuario-controller"
+                ],
+                "operationId": "obtenerUsuarioPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Usuario"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "usuario-controller"
+                ],
+                "operationId": "actualizarUsuario",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Usuario"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Usuario"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "usuario-controller"
+                ],
+                "operationId": "eliminarUsuario",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/productos/{id}": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Obtener un producto por su ID",
+                "description": "Retorna los detalles de un producto específico",
+                "operationId": "obtenerProductoPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a consultar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Producto encontrado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Actualizar un producto",
+                "description": "Actualiza los datos de un producto existente. Requiere rol de ADMINISTRADOR.",
+                "operationId": "actualizarProducto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Producto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud inválida",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Producto actualizado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol ADMIN",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Eliminar un producto",
+                "description": "Elimina un producto del inventario. Requiere rol de ADMINISTRADOR.",
+                "operationId": "eliminarProducto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    },
+                    "204": {
+                        "description": "Producto eliminado"
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol ADMIN"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            }
+        },
+        "/api/inventario/{id}": {
+            "get": {
+                "tags": [
+                    "inventario-controller"
+                ],
+                "operationId": "obtenerMovimientoPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Inventario"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "inventario-controller"
+                ],
+                "operationId": "actualizarMovimiento",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Inventario"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Inventario"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "inventario-controller"
+                ],
+                "operationId": "eliminarMovimiento",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/detalle-ventas/{id}": {
+            "get": {
+                "tags": [
+                    "detalle-venta-controller"
+                ],
+                "operationId": "obtenerDetalleVentaPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DetalleVenta"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "detalle-venta-controller"
+                ],
+                "operationId": "actualizarDetalleVenta",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DetalleVenta"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DetalleVenta"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "detalle-venta-controller"
+                ],
+                "operationId": "eliminarDetalleVenta",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/categorias/{id}": {
+            "get": {
+                "tags": [
+                    "categoria-controller"
+                ],
+                "operationId": "obtenerCategoriaPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Categoria"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "categoria-controller"
+                ],
+                "operationId": "actualizarCategoria",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Categoria"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Categoria"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "categoria-controller"
+                ],
+                "operationId": "eliminarCategoria",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/carrito/{id}": {
+            "get": {
+                "tags": [
+                    "Carritos"
+                ],
+                "summary": "Obtener un carrito por su ID",
+                "description": "Retorna los detalles de un carrito específico",
+                "operationId": "obtenerCarritoPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del carrito a consultar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Carrito encontrado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Carrito no encontrado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Carritos"
+                ],
+                "summary": "Actualizar un carrito",
+                "description": "Actualiza los datos de un carrito existente. Requiere rol de ADMINISTRADOR.",
+                "operationId": "actualizarCarrito",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del carrito a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Carrito"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Carrito actualizado exitosamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud inválida",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Carrito no encontrado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol ADMIN",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Carritos"
+                ],
+                "summary": "Eliminar un producto del carrito",
+                "description": "Elimina un producto específico del carrito. Requiere rol de CLIENTE.",
+                "operationId": "eliminarProductoDelCarrito",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a eliminar del carrito",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "404": {
+                        "description": "Carrito no encontrado"
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol CLIENTE"
+                    },
+                    "204": {
+                        "description": "Producto eliminado del carrito"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            }
+        },
+        "/api/ventas": {
+            "get": {
+                "tags": [
+                    "venta-controller"
+                ],
+                "operationId": "listarVentas",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Venta"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "venta-controller"
+                ],
+                "operationId": "guardarVenta",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Venta"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Venta"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/usuarios": {
+            "get": {
+                "tags": [
+                    "usuario-controller"
+                ],
+                "operationId": "listarUsuarios",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Usuario"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "usuario-controller"
+                ],
+                "operationId": "guardarUsuario",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Usuario"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Usuario"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/productos": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Obtener todos los productos",
+                "description": "Retorna una lista de todos los productos disponibles en el inventario",
+                "operationId": "listarProductos",
+                "responses": {
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Producto"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Producto"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Lista de productos obtenida exitosamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Producto"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Crear un nuevo producto",
+                "description": "Crea un nuevo producto en el inventario. Requiere rol de ADMINISTRADOR.",
+                "operationId": "guardarProducto",
+                "requestBody": {
+                    "description": "Datos del producto a crear",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Producto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado exitosamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud inválida",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol ADMIN",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            }
+        },
+        "/api/inventario": {
+            "get": {
+                "tags": [
+                    "inventario-controller"
+                ],
+                "operationId": "listarMovimientosDeInventario",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Inventario"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "inventario-controller"
+                ],
+                "operationId": "registrarMovimiento",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Inventario"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Inventario"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/detalle-ventas": {
+            "get": {
+                "tags": [
+                    "detalle-venta-controller"
+                ],
+                "operationId": "listarDetalleVentas",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DetalleVenta"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "detalle-venta-controller"
+                ],
+                "operationId": "guardarDetalleVenta",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DetalleVenta"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DetalleVenta"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/categorias": {
+            "get": {
+                "tags": [
+                    "categoria-controller"
+                ],
+                "operationId": "listarCategorias",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Categoria"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "categoria-controller"
+                ],
+                "operationId": "guardarCategoria",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Categoria"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Categoria"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/carrito": {
+            "get": {
+                "tags": [
+                    "Carritos"
+                ],
+                "summary": "Obtener todos los carritos",
+                "description": "Retorna una lista de todos los carritos registrados. Requiere rol de ADMINISTRADOR.",
+                "operationId": "listarCarrito",
+                "responses": {
+                    "200": {
+                        "description": "Lista de carritos obtenida exitosamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Carrito"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Carrito"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol ADMIN",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Carrito"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Carritos"
+                ],
+                "summary": "Agregar un producto al carrito",
+                "description": "Agrega un producto al carrito de compras. Requiere rol de CLIENTE.",
+                "operationId": "agregarProductoAlCarrito",
+                "requestBody": {
+                    "description": "Datos del carrito a crear",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Carrito"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud inválida",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Producto agregado al carrito exitosamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado. Se requiere rol CLIENTE",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Carrito"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-jwt": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "auth-controller"
+                ],
+                "operationId": "login",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/public/hola": {
+            "get": {
+                "tags": [
+                    "hola-mundo-controller"
+                ],
+                "operationId": "holaMundo",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/ventas/{id}": {
+            "get": {
+                "tags": [
+                    "venta-controller"
+                ],
+                "operationId": "obtenerVentaPorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Venta"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Rol": {
+                "required": [
+                    "nombre"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nombre": {
+                        "maxLength": 50,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "usuarios": {
+                        "uniqueItems": true,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            },
+            "Usuario": {
+                "required": [
+                    "nombre",
+                    "password",
+                    "username"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "username": {
+                        "maxLength": 50,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "apellido": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "roles": {
+                        "uniqueItems": true,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Rol"
+                        }
+                    }
+                }
+            },
+            "Categoria": {
+                "required": [
+                    "nombre"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nombre": {
+                        "maxLength": 60,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "productos": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Producto"
+                        }
+                    }
+                }
+            },
+            "Producto": {
+                "required": [
+                    "categoria",
+                    "nombre",
+                    "precio",
+                    "stock"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nombre": {
+                        "maxLength": 100,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "precio": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "categoria": {
+                        "$ref": "#/components/schemas/Categoria"
+                    }
+                }
+            },
+            "Inventario": {
+                "required": [
+                    "cantidad",
+                    "fechaMovimiento",
+                    "producto",
+                    "tipoMovimiento"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "producto": {
+                        "$ref": "#/components/schemas/Producto"
+                    },
+                    "cantidad": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "tipoMovimiento": {
+                        "type": "string"
+                    },
+                    "fechaMovimiento": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "DetalleVenta": {
+                "required": [
+                    "cantidad",
+                    "precio",
+                    "producto",
+                    "venta"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "venta": {
+                        "$ref": "#/components/schemas/Venta"
+                    },
+                    "producto": {
+                        "$ref": "#/components/schemas/Producto"
+                    },
+                    "cantidad": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "precio": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                }
+            },
+            "Venta": {
+                "required": [
+                    "fecha",
+                    "usuario"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "usuario": {
+                        "$ref": "#/components/schemas/Usuario"
+                    },
+                    "fecha": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "detalles": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DetalleVenta"
+                        }
+                    }
+                }
+            },
+            "Carrito": {
+                "required": [
+                    "cantidad",
+                    "producto",
+                    "usuario"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "usuario": {
+                        "$ref": "#/components/schemas/Usuario"
+                    },
+                    "producto": {
+                        "$ref": "#/components/schemas/Producto"
+                    },
+                    "cantidad": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "LoginRequest": {
+                "required": [
+                    "password",
+                    "username"
+                ],
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "LoginResponse": {
+                "type": "object",
+                "properties": {
+                    "autenticado": {
+                        "type": "boolean"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "mensaje": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "name": "basicAuth",
+                "scheme": "basic"
+            }
+        }
+    }
+}
